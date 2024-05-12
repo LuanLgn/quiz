@@ -1,0 +1,3 @@
+[build]
+  command = "npm run build"
+  publish = "public" # Se o seu aplicativo Node.js produzir arquivos estáticos na pasta 'public'

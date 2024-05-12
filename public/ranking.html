@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ranking</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h2 {
+        color: #007bff; /* azul */
+      }
+
+      h3 {
+        color: #007bff; /* azul */
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #007bff; /* azul */
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff; /* azul */
+        color: #fff; /* branco */
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3; /* tom mais escuro de azul */
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Ranking de Pontuações</h2>
+    <h3>Bem-vindo: <span id="username"></span></h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Usuário</th>
+          <th>Pontos</th>
+        </tr>
+      </thead>
+      <tbody id="rankingBody">
+        <!-- Aqui serão adicionadas as linhas da tabela via JavaScript -->
+      </tbody>
+    </table>
+    <button id="hallButton">Voltar para o Hall</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      function loadRanking() {
+        $.ajax({
+          url: "/getRanking",
+          method: "GET",
+          success: function (data) {
+            $("#rankingBody").empty();
+
+            data.forEach(function (user) {
+              var row = $("<tr>");
+              row.append($("<td>").text(user.username));
+              row.append($("<td>").text(user.points));
+              $("#rankingBody").append(row);
+            });
+          },
+          error: function (xhr, status, error) {
+            console.error("Erro ao carregar o ranking:", error);
+          },
+        });
+      }
+
+      $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get("username");
+
+        $("#username").text(username);
+
+        loadRanking();
+
+        $("#hallButton").click(function () {
+          window.location.href = `hall.html?username=${username}`;
+        });
+      });
+    </script>
+  </body>
+</html>

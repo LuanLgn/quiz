@@ -1,0 +1,102 @@
+{
+  "Pergunta 1": {
+    "enunciado": "Qual a capital do Brasil?",
+    "respostas": {
+      "Resposta1": "Brasília",
+      "Resposta2": "Rio de Janeiro",
+      "Resposta3": "São Paulo",
+      "Resposta4": "Minas Gerais"
+    },
+    "resposta_correta": "Resposta1"
+  },
+  "Pergunta 2": {
+    "enunciado": "Quem foi o primeiro presidente do Brasil?",
+    "respostas": {
+      "Resposta1": "Getúlio Vargas",
+      "Resposta2": "Deodoro da Fonseca",
+      "Resposta3": "Juscelino Kubitschek",
+      "Resposta4": "Tancredo Neves"
+    },
+    "resposta_correta": "Resposta2"
+  },
+  "Pergunta 3": {
+    "enunciado": "Qual o maior país do mundo em extensão territorial?",
+    "respostas": {
+      "Resposta1": "Rússia",
+      "Resposta2": "Canadá",
+      "Resposta3": "Estados Unidos",
+      "Resposta4": "China"
+    },
+    "resposta_correta": "Resposta1"
+  },
+  "Pergunta 4": {
+    "enunciado": "Quem escreveu 'Dom Quixote'?",
+    "respostas": {
+      "Resposta1": "Miguel de Cervantes",
+      "Resposta2": "William Shakespeare",
+      "Resposta3": "Fiodor Dostoiévski",
+      "Resposta4": "Charles Dickens"
+    },
+    "resposta_correta": "Resposta1"
+  },
+  "Pergunta 5": {
+    "enunciado": "Qual é o elemento mais abundante na crosta terrestre?",
+    "respostas": {
+      "Resposta1": "Oxigênio",
+      "Resposta2": "Silício",
+      "Resposta3": "Alumínio",
+      "Resposta4": "Ferro"
+    },
+    "resposta_correta": "Resposta2"
+  },
+  "Pergunta 6": {
+    "enunciado": "Quem pintou a 'Mona Lisa'?",
+    "respostas": {
+      "Resposta1": "Vincent van Gogh",
+      "Resposta2": "Leonardo da Vinci",
+      "Resposta3": "Pablo Picasso",
+      "Resposta4": "Claude Monet"
+    },
+    "resposta_correta": "Resposta2"
+  },
+  "Pergunta 7": {
+    "enunciado": "Em qual ano a Segunda Guerra Mundial começou?",
+    "respostas": {
+      "Resposta1": "1939",
+      "Resposta2": "1940",
+      "Resposta3": "1941",
+      "Resposta4": "1942"
+    },
+    "resposta_correta": "Resposta1"
+  },
+  "Pergunta 8": {
+    "enunciado": "Qual é a montanha mais alta do mundo?",
+    "respostas": {
+      "Resposta1": "Monte Everest",
+      "Resposta2": "Monte K2",
+      "Resposta3": "Monte Kilimanjaro",
+      "Resposta4": "Monte Fuji"
+    },
+    "resposta_correta": "Resposta1"
+  },
+  "Pergunta 9": {
+    "enunciado": "Qual é o país com maior número de prêmios Nobel?",
+    "respostas": {
+      "Resposta1": "Estados Unidos",
+      "Resposta2": "Reino Unido",
+      "Resposta3": "Alemanha",
+      "Resposta4": "França"
+    },
+    "resposta_correta": "Resposta1"
+  },
+  "Pergunta 10": {
+    "enunciado": "Quem foi o primeiro homem a pisar na Lua?",
+    "respostas": {
+      "Resposta1": "Neil Armstrong",
+      "Resposta2": "Buzz Aldrin",
+      "Resposta3": "Yuri Gagarin",
+      "Resposta4": "Alan Shepard"
+    },
+    "resposta_correta": "Resposta1"
+  }
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      /* Custom CSS para personalização adicional */
+      body {
+        background-color: #f8f9fa;
+      }
+      .login-form {
+        margin-top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card login-form">
+            <div class="card-header">
+              <h3 class="text-center">Login</h3>
+            </div>
+            <div class="card-body">
+              <form id="loginForm" action="/login" method="POST">
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="Enter username"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Seu script jQuery -->
+    <script>
+      $(document).ready(function () {
+        // Obter o nome de usuário do LocalStorage
+        var username = localStorage.getItem("username");
+
+        // Exibir o nome de usuário na página
+        $("#username").text(username);
+
+        // Fazer uma solicitação AJAX para obter os pontos do usuário
+        $.ajax({
+          type: "GET",
+          url: "/getUserPoints",
+          data: { username: username },
+          success: function (response) {
+            // Atualizar a página com os pontos do usuário
+            $("#userPoints").text(response.points);
+          },
+          error: function (xhr, status, error) {
+            console.error("Erro ao obter pontos do usuário:", error);
+            $("#userPoints").text("Erro ao obter pontos");
+          },
+        });
+
+        // Lidar com o clique do botão de ranking
+        $("#rankingButton").click(function () {
+          // Redirecionar para a página de ranking passando o nome de usuário como parâmetro
+          goToRanking(username);
+        });
+
+        // Lidar com o clique dos botões de aula
+        $(".lessonButton").click(function () {
+          // Obter o número da aula associado ao botão clicado
+          const lessonNumber = $(this).data("lesson");
+
+          // Redirecionar para a página do quiz com o número da aula como parâmetro na URL
+          window.location.href = `quiz.html?lesson=${lessonNumber}&username=${username}`;
+        });
+      });
+
+      function goToRanking(username) {
+        if (username === "desk") {
+          alert("Você não pode acessar o ranking.");
+        } else {
+          window.location.href = `ranking.html?username=${username}`;
+        }
+      }
+
+      // Função para deslogar
+      function logout() {
+        // Remover o nome de usuário do LocalStorage
+        localStorage.removeItem("username");
+        // Redirecionar para a página de login (ou qualquer outra página inicial)
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>

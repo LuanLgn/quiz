@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0; /* branco suave */
+      }
+
+      h2 {
+        color: #007bff; /* azul */
+      }
+
+      h3 {
+        color: #007bff; /* azul */
+      }
+
+      .question {
+        margin-bottom: 20px;
+      }
+
+      .answer-button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff; /* azul */
+        color: #fff; /* branco */
+        cursor: pointer;
+      }
+
+      .answer-button:hover {
+        background-color: #0056b3; /* tom mais escuro de azul */
+      }
+
+      #goToHallPage {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff; /* azul */
+        color: #fff; /* branco */
+        cursor: pointer;
+      }
+
+      #goToHallPage:hover {
+        background-color: #0056b3; /* tom mais escuro de azul */
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Quiz da Aula <span id="lessonNumber"></span></h2>
+    <div id="questionsContainer"></div>
+    <h3>Bem-vindo: <span id="username"></span></h3>
+    <h3>Pontos: <span id="userPoints"></span></h3>
+
+    <button
+      id="goToHallPage"
+      onclick="goToHall($('#username').text())"
+      style="display: none"
+    >
+      Voltar para o Hall
+    </button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Variável para armazenar o índice da pergunta atual
+        var currentQuestionIndex;
+        // Variável para armazenar as perguntas do JSON
+        var questions;
+
+        // Obter o número da aula a partir dos parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const lessonNumber = urlParams.get("lesson");
+
+        // Exibir o número da aula na página
+        $("#lessonNumber").text(lessonNumber);
+
+        // Função para adicionar pontos ao usuário
+        function addPointsToUser() {
+          $.ajax({
+            type: "POST",
+            url: "/addPoints",
+            data: {
+              username: $("#username").text(),
+              pointsToAdd: 1, // Quantidade de pontos a adicionar
+            },
+            success: function (response) {
+              $("#userPoints").text(response.points); // Atualiza a exibição dos pontos na página
+            },
+            error: function (xhr, status, error) {},
+          });
+        }
+
+        // Função para lidar com o clique do botão de resposta
+        function handleAnswerClick() {
+          // Verificar se a resposta está correta
+          if ($(this).hasClass("correct-answer")) {
+            addPointsToUser(); // Adicionar pontos ao usuário após uma resposta correta
+          }
+
+          // Exibir a próxima pergunta após um intervalo de tempo
+          showNextQuestion();
+        }
+
+        // Função para exibir a próxima pergunta
+        function showNextQuestion() {
+          if (currentQuestionIndex < questions.length) {
+            $("#questionsContainer").empty();
+            var currentQuestion = questions[currentQuestionIndex];
+            var questionText = currentQuestion[0];
+            var answers = currentQuestion[1].respostas;
+
+            var questionElement = $("<div>")
+              .addClass("question")
+              .text(questionText);
+            $.each(answers, function (respostaKey, respostaValue) {
+              var answerButton = $("<button>")
+                .addClass("answer-button")
+                .text(respostaValue);
+              if (respostaKey === currentQuestion[1].resposta_correta) {
+                answerButton.addClass("correct-answer");
+              }
+              answerButton.attr("id", respostaKey);
+              questionElement.append(answerButton);
+            });
+            $("#questionsContainer").append(questionElement);
+
+            // Lidar com o clique do botão de resposta
+            $(".answer-button").on("click", handleAnswerClick);
+
+            currentQuestionIndex++;
+          } else {
+            // Se não houver mais perguntas, exibir um botão para ir para a página Hall
+            $("#questionsContainer").empty();
+            $("#goToHallPage").show();
+          }
+        }
+
+        // Carregar o arquivo JSON correspondente à aula
+        $.getJSON(`perguntas/aula${lessonNumber}.json`, function (data) {
+          questions = Object.entries(data);
+
+          currentQuestionIndex = 0;
+
+          // Exibir a primeira pergunta
+          showNextQuestion();
+        }).fail(function (jqxhr, textStatus, error) {
+          var err = textStatus + ", " + error;
+        });
+
+        // Obter informações do usuário via AJAX
+        $.ajax({
+          type: "GET",
+          url: "/getUserInfo",
+          success: function (response) {
+            // Exibir as informações do usuário na página
+            $("#username").text(response.username);
+            $("#userPoints").text(response.points);
+          },
+          error: function (xhr, status, error) {},
+        });
+
+        // Redirecionar para a página Hall quando o botão for clicado
+        $("#goToHallPage").on("click", function () {
+          goToHall($("#username").text());
+        });
+      });
+
+      function goToHall(username) {
+        window.location.href = `hall.html?username=${username}`;
+      }
+    </script>
+  </body>
+</html>
